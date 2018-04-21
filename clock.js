@@ -7,10 +7,15 @@ function getTime() {
         + time.getSeconds() + "s "  + time.getMilliseconds() + "ms";
 }
 
+let salir = false; // variable de control para cortar la ejecución fácilmente
+
 process.stdout.write(" Introduce un tiempo de refresco (en milisegundos): ");
 process.stdin.on('data',function (line) {
     if (!Number(line)){
-        throw new Error("Introduce un número!!")
+        if (salir){
+            process.exit(0);
+        }
+        line = 90; // Por defecto, el tiempo de refresco son 90 ms
     }
     // Actualización del reloj
     setInterval(
@@ -19,6 +24,7 @@ process.stdin.on('data',function (line) {
         },
         line
     );
+    salir = !salir;
     console.log("\n        THE CLOCK\n");
     }
 );
